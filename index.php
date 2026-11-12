@@ -60,6 +60,42 @@ header('Content-Type: text/html; charset=UTF-8');
       .shortcut{min-height:140px}
       #page-system .specs{grid-template-columns:1fr 1fr}
     }
+
+  /* v3: server inventory */
+  .inventory-hero{background:linear-gradient(115deg,#1b273a,#2c405d);border-radius:18px;color:#fff;padding:25px 27px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  .inventory-hero strong{font-size:21px;letter-spacing:-.4px;display:block;margin:4px 0}
+  .inventory-hero p{color:#b8c6d9;margin:0;font-size:12px}
+  .inventory-hero .inventory-tag{padding:6px 10px;background:#ffffff1c;color:#dce6f2;border:1px solid #ffffff2e;border-radius:7px;font-size:11px;font-weight:750;letter-spacing:.4px}
+  .inventory-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:19px}
+  .inventory-metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 17px;min-width:0}
+  .inventory-metric span{display:block;color:#7e8b9d;font-size:11px}
+  .inventory-metric strong{font-size:18px;margin-top:5px;display:block;overflow-wrap:anywhere}
+  .inventory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .inventory-card{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;min-width:0}
+  .inventory-card.wide{grid-column:1/-1}
+  .inventory-card-head{padding:18px 20px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #eef0f4}
+  .inventory-card-icon{width:35px;height:35px;background:#edf3fa;border-radius:10px;display:grid;place-items:center;font-size:18px;color:#516784}
+  .inventory-card h3{font-size:14px;margin:0;color:#26354c}
+  .inventory-card .cardhint{margin-top:3px;color:#8a97a6;font-size:11px}
+  .inventory-kv{margin:0;padding:4px 20px 12px}
+  .inventory-kv>div{display:grid;grid-template-columns:minmax(120px,37%) minmax(0,1fr);gap:12px;border-bottom:1px solid #f2f4f6;padding:11px 0;align-items:start}
+  .inventory-kv>div:last-child{border:0}
+  .inventory-kv dt{color:#8995a6;font-size:12px}
+  .inventory-kv dd{margin:0;color:#263347;font-size:12px;font-weight:650;overflow-wrap:anywhere}
+  .inventory-kv dd.dim{color:#9aa3af;font-weight:500}
+  .inventory-table-wrap{overflow-x:auto;padding:3px 19px 17px}
+  .inventory-table{border-collapse:collapse;width:100%;font-size:12px;text-align:left}
+  .inventory-table th{color:#8b97a7;padding:12px 10px 11px;border-bottom:1px solid #e9edf2;font-weight:700;white-space:nowrap}
+  .inventory-table td{padding:12px 10px;border-bottom:1px solid #f0f2f5;color:#37455c;vertical-align:middle;overflow-wrap:anywhere}
+  .inventory-table tr:last-child td{border-bottom:0}
+  .inventory-table .disk-name{font:700 12px ui-monospace,Consolas,monospace;color:#253b5b}
+  .inventory-bar{height:5px;background:#edf1f6;border-radius:99px;overflow:hidden;min-width:95px;margin-top:6px}
+  .inventory-bar span{display:block;background:#cf4b59;height:100%;border-radius:99px}
+  .inventory-empty{color:#9aa4b3!important;font-style:italic;font-size:12px;padding:16px 10px!important}
+  .inventory-foot{margin-top:14px;padding:14px 17px;border:1px dashed #d8dee8;border-radius:12px;color:#758294;font-size:12px;line-height:1.6}
+  @media(max-width:1100px){.inventory-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:800px){.inventory-grid{grid-template-columns:1fr}.inventory-card.wide{grid-column:auto}}
+  @media(max-width:430px){.inventory-summary{grid-template-columns:1fr 1fr}.inventory-metric strong{font-size:15px}.inventory-kv>div{grid-template-columns:1fr;gap:3px}.inventory-hero{padding:20px}}
 </style>
 </head>
 <body>
@@ -94,18 +130,64 @@ header('Content-Type: text/html; charset=UTF-8');
 <div class="shortcutgrid">
 <a class="shortcut" href="#monitor"><span class="shortcut-icon">◈</span><strong>Giám sát hiệu năng</strong><span>Biểu đồ CPU và trạng thái tài nguyên theo thời gian thực</span><b>Xem giám sát →</b></a>
 <a class="shortcut" href="#services"><span class="shortcut-icon">▦</span><strong>Dịch vụ hệ thống</strong><span>Truy cập Cockpit, Netdata, Supervisor và các API</span><b>Xem dịch vụ →</b></a>
-<a class="shortcut" href="#system"><span class="shortcut-icon">▤</span><strong>Thông tin server</strong><span>Cấu hình cơ bản, IP, hostname và trạng thái kết nối</span><b>Xem thông tin →</b></a>
+<a class="shortcut" href="#system"><span class="shortcut-icon">▤</span><strong>Thông tin server</strong><span>Phần cứng, mainboard, CPU, RAM, ổ đĩa, RAID và vị trí đặt máy</span><b>Xem thông tin →</b></a>
 </div>
-</section><section class="page-view" data-page="monitor" hidden="" id="page-monitor"><div class="portal-section-title"><h2 class="section-title">Giám sát thời gian thực</h2><div class="section-sub">Biểu đồ chỉ sử dụng dữ liệu từ bộ đọc Linux tại máy chủ. Chưa triển khai sẽ hiển thị chưa kết nối.</div></div><div class="panel panel-pad"><div class="panel-head"><div><h2 class="section-title">Biểu đồ CPU</h2><div class="section-sub">Đọc mỗi 8 giây · dữ liệu từ Linux /proc</div></div><span class="panel-chip" id="cpuBadge">CHƯA CÓ DỮ LIỆU</span></div>
+</section><section class="page-view" data-page="monitor" hidden="" id="page-monitor"><div class="portal-section-title"><h2 class="section-title">Giám sát thời gian thực</h2><div class="section-sub">Biểu đồ chỉ sử dụng dữ liệu từ bộ đọc Linux tại máy chủ. Chưa triển khai sẽ hiển thị chưa kết nối.</div></div><div class="panel panel-pad"><div class="panel-head"><div><h2 class="section-title">Biểu đồ CPU</h2><div class="section-sub">Đọc mỗi 3 giây · dữ liệu từ Linux /proc</div></div><span class="panel-chip" id="cpuBadge">CHƯA CÓ DỮ LIỆU</span></div>
 <svg aria-label="Biểu đồ lịch sử CPU" id="cpuChart" preserveaspectratio="none" viewbox="0 0 600 158"><line class="gridline" x1="0" x2="600" y1="30" y2="30"></line><line class="gridline" x1="0" x2="600" y1="75" y2="75"></line><line class="gridline" x1="0" x2="600" y1="120" y2="120"></line><polyline class="polyline" id="cpuLine" points=""></polyline></svg>
 <div class="chart-foot"><span>60 mẫu gần nhất</span><span id="cpuChartText">Đang chờ dữ liệu...</span></div>
 </div><div class="monitor-note"><strong>Giám sát chuyên sâu với Netdata</strong><p>Netdata là ứng dụng riêng. Khi đã cài và giới hạn truy cập từ IP công ty, bạn có thể mở dashboard để xem CPU, RAM, Disk I/O, Network và cảnh báo.</p><button class="textlink" data-open-tool="netdata" type="button">Mở Netdata ↗</button></div></section><section class="page-view" data-page="services" hidden="" id="page-services">
 <div class="services-head"><div><h2 class="section-title">Dịch vụ &amp; Công cụ</h2><div class="section-sub">Mở nhanh các giao diện quản trị hoặc tra cứu trạng thái cổng dịch vụ</div></div><div class="services-controls"><input aria-label="Tìm dịch vụ" id="search" placeholder="Tìm dịch vụ..." type="search"/><button class="filter active" data-filter="all" type="button">Tất cả</button><button class="filter" data-filter="up" type="button">Đang mở</button><button class="filter" data-filter="down" type="button">Chưa mở</button></div></div>
 <div class="servicegrid" id="serviceGrid"></div>
-</section><section class="page-view" data-page="system" hidden="" id="page-system"><div class="portal-section-title"><h2 class="section-title">Thông tin máy chủ</h2><div class="section-sub">Chi tiết host và hệ điều hành; cấu hình truy cập liên kết không thay đổi IP thật của server.</div></div><div class="panel panel-pad"><div class="panel-head"><div><h2 class="section-title">Thông tin máy chủ</h2><div class="section-sub">Địa chỉ IP và trạng thái kết nối</div></div><span class="panel-chip">PRODUCTION CANDIDATE</span></div>
-<div class="specs"><div><span class="k">Public IP / Host</span><span class="v" id="specHost">118.69.170.82</span></div><div><span class="k">Hệ điều hành</span><span class="v">Ubuntu 24.04</span></div><div><span class="k">Máy chủ</span><span class="v" id="specHostname">Chưa có dữ liệu</span></div><div><span class="k">Apache (TCP :80)</span><span class="v" id="apacheState"><span class="mini-dot"></span>Chưa kiểm tra</span></div><div><span class="k">Load Average (1 / 5 / 15m)</span><span class="v" id="loadValue">— / — / —</span></div><div><span class="k">Giám sát</span><span class="v" id="lastCheck">Chưa kết nối</span></div></div>
-<p class="small-print" style="margin-top:18px">Trạng thái dịch vụ dựa trên kết nối TCP nội bộ, không xác nhận API xử lý nghiệp vụ thành công.</p>
-</div><div class="monitor-note"><strong>Quản trị server</strong><p>Sử dụng Cockpit để xem nhật ký và quản trị Linux. Dashboard AMnote này chỉ giám sát và mở liên kết, không thực hiện lệnh hệ thống hoặc giao dịch thuế.</p><button class="textlink" data-open-tool="cockpit" type="button">Mở Cockpit ↗</button></div></section><footer class="footer"><span>© 2026 <b>AMnote</b> · Infrastructure dashboard · Không lưu mật khẩu hoặc token</span><span>Chỉ dành cho IP công ty <b>115.78.232.22</b> (phiên bản PHP)</span></footer>
+</section><section class="page-view" data-page="system" hidden="" id="page-system">
+  <div class="portal-section-title"><h2 class="section-title">Hồ sơ cấu hình máy chủ</h2><div class="section-sub">Dữ liệu phần cứng đọc trực tiếp từ Linux; vị trí đặt máy và thông tin backup được nhập thủ công.</div></div>
+  <div class="inventory-hero">
+    <div><span class="inventory-tag">AMNOTE / INFRASTRUCTURE</span><strong id="inventoryHost">api-amnote</strong><p>IP truy cập: <b id="specHost">118.69.170.82</b> · Cập nhật: <span id="lastCheck">Chưa kết nối</span></p></div>
+    <span class="inventory-tag">READ ONLY · KHÔNG CAN THIỆP SERVER</span>
+  </div>
+  <div class="inventory-summary">
+    <div class="inventory-metric"><span>Bộ xử lý</span><strong id="ivCpuShort">—</strong></div>
+    <div class="inventory-metric"><span>Luồng CPU (OS nhận diện)</span><strong id="ivThreadsShort">—</strong></div>
+    <div class="inventory-metric"><span>RAM hệ thống</span><strong id="ivRamShort">—</strong></div>
+    <div class="inventory-metric"><span>Swap</span><strong id="ivSwapShort">—</strong></div>
+  </div>
+  <div class="inventory-grid">
+    <section class="inventory-card"><header class="inventory-card-head"><span class="inventory-card-icon">▤</span><div><h3>Hệ điều hành & hệ thống</h3><div class="cardhint">Hostname, phiên bản Linux và nhân hệ điều hành</div></div></header><dl class="inventory-kv">
+      <div><dt>Hostname</dt><dd id="specHostname">—</dd></div><div><dt>Hệ điều hành</dt><dd id="ivOs">—</dd></div>
+      <div><dt>Kernel</dt><dd id="ivKernel">—</dd></div><div><dt>Kiến trúc</dt><dd id="ivArch">—</dd></div>
+      <div><dt>PHP Web Runtime</dt><dd id="ivPhp">—</dd></div><div><dt>Load Average (1 / 5 / 15m)</dt><dd id="loadValue">— / — / —</dd></div>
+      <div><dt>Uptime</dt><dd id="ivUptime">—</dd></div><div><dt>Apache (TCP :80)</dt><dd id="apacheState">Chưa kiểm tra</dd></div>
+    </dl></section>
+    <section class="inventory-card"><header class="inventory-card-head"><span class="inventory-card-icon">▣</span><div><h3>Mainboard & CPU</h3><div class="cardhint">Đọc DMI/sysfs và thông tin bộ xử lý từ /proc</div></div></header><dl class="inventory-kv">
+      <div><dt>Hãng Mainboard</dt><dd id="ivBoardVendor">—</dd></div><div><dt>Model Mainboard</dt><dd id="ivBoardModel">—</dd></div>
+      <div><dt>Phiên bản Mainboard</dt><dd id="ivBoardVersion">—</dd></div><div><dt>Hãng / Model máy chủ</dt><dd id="ivMachine">—</dd></div>
+      <div><dt>CPU model</dt><dd id="ivCpuModel">—</dd></div><div><dt>Số socket CPU</dt><dd id="ivSockets">—</dd></div>
+      <div><dt>Core / socket</dt><dd id="ivCores">—</dd></div><div><dt>Luồng / CPU logic</dt><dd id="ivThreads">—</dd></div>
+    </dl></section>
+    <section class="inventory-card"><header class="inventory-card-head"><span class="inventory-card-icon">◴</span><div><h3>RAM & bộ nhớ ảo</h3><div class="cardhint">RAM Linux sử dụng được; Swap không phải dung lượng RAM vật lý</div></div></header><dl class="inventory-kv">
+      <div><dt>RAM hệ thống</dt><dd id="ivMemTotal">—</dd></div><div><dt>RAM đã dùng</dt><dd id="ivMemUsed">—</dd></div>
+      <div><dt>RAM khả dụng</dt><dd id="ivMemAvail">—</dd></div><div><dt>Swap tổng</dt><dd id="ivSwapTotal">—</dd></div>
+      <div><dt>Swap đã dùng</dt><dd id="ivSwapUsed">—</dd></div><div><dt>Swap còn trống</dt><dd id="ivSwapFree">—</dd></div>
+    </dl></section>
+    <section class="inventory-card"><header class="inventory-card-head"><span class="inventory-card-icon">◇</span><div><h3>Datacenter & thông tin vận hành</h3><div class="cardhint">Các trường này cần người quản trị xác nhận và khai báo</div></div></header><dl class="inventory-kv">
+      <div><dt>Vai trò máy chủ</dt><dd id="ivRole">—</dd></div><div><dt>Vị trí đặt máy (Position)</dt><dd id="ivPosition">Chưa khai báo</dd></div>
+      <div><dt>Datacenter</dt><dd id="ivDc">Chưa khai báo</dd></div><div><dt>Rack / Tủ máy</dt><dd id="ivRack">Chưa khai báo</dd></div>
+      <div><dt>Nhà cung cấp</dt><dd id="ivProvider">Chưa khai báo</dd></div><div><dt>Ghi chú lưu trữ</dt><dd id="ivStorageNotes">Chưa khai báo</dd></div>
+      <div><dt>Backup</dt><dd id="ivBackupNotes">Chưa khai báo</dd></div>
+    </dl></section>
+    <section class="inventory-card wide"><header class="inventory-card-head"><span class="inventory-card-icon">▦</span><div><h3>Ổ đĩa vật lý / thiết bị lưu trữ</h3><div class="cardhint">Nhận diện từng disk theo /sys/block; RAID và LVM có thể xuất hiện dưới dạng thiết bị logic riêng</div></div></header>
+      <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>Thiết bị</th><th>Loại</th><th>Hãng / Model</th><th>Dung lượng</th></tr></thead><tbody id="ivPhysicalDisks"><tr><td colspan="4" class="inventory-empty">Chưa có dữ liệu phần cứng</td></tr></tbody></table></div>
+    </section>
+    <section class="inventory-card wide"><header class="inventory-card-head"><span class="inventory-card-icon">≋</span><div><h3>RAID & phân vùng lưu trữ</h3><div class="cardhint">Phân biệt dung lượng thiết bị và dung lượng sử dụng được trên filesystem</div></div></header>
+      <dl class="inventory-kv"><div><dt>Software RAID (mdadm)</dt><dd id="ivRaid">—</dd></div></dl>
+      <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>Mount point</th><th>Thiết bị</th><th>Filesystem</th><th>Dung lượng / Đã dùng</th></tr></thead><tbody id="ivMounts"><tr><td colspan="4" class="inventory-empty">Chưa có dữ liệu phân vùng</td></tr></tbody></table></div>
+    </section>
+    <section class="inventory-card wide"><header class="inventory-card-head"><span class="inventory-card-icon">↗</span><div><h3>Network Interfaces</h3><div class="cardhint">Trạng thái liên kết mạng, speed và MTU — không hiển thị địa chỉ MAC</div></div></header>
+      <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>Interface</th><th>Trạng thái</th><th>Tốc độ liên kết</th><th>MTU</th></tr></thead><tbody id="ivInterfaces"><tr><td colspan="4" class="inventory-empty">Chưa có dữ liệu mạng</td></tr></tbody></table></div>
+    </section>
+  </div>
+  <div class="inventory-foot"><b>Nguồn dữ liệu:</b> /proc, /sys, /etc/os-release. Model mainboard có thể không đọc được nếu môi trường ảo hoặc bị giới hạn quyền. Không tự kết luận RAID1, số lượng HDD backup hay vị trí datacenter từ dung lượng phân vùng. Điền thông tin đã xác minh vào <code>server-meta.php</code> trên server. Không đưa thông tin của máy <code>118.69.170.74</code> vào máy <code>118.69.170.82</code>.</div>
+</section>
+<footer class="footer"><span>© 2026 <b>AMnote</b> · Infrastructure dashboard · Không lưu mật khẩu hoặc token</span><span>Chỉ dành cho IP công ty <b>115.78.232.22</b> (phiên bản PHP)</span></footer>
 </main>
 </div>
 <div aria-hidden="true" aria-labelledby="hostTitle" aria-modal="true" class="modalbg" id="hostModal" role="dialog">
@@ -137,7 +219,7 @@ header('Content-Type: text/html; charset=UTF-8');
     overview: ['Tổng quan server','Tài nguyên và tình trạng tổng thể của máy chủ AMnote'],
     monitor: ['Giám sát hiệu năng','Biểu đồ CPU và thống kê theo thời gian thực'],
     services: ['Dịch vụ hệ thống','Các ứng dụng và điểm truy cập quản trị'],
-    system: ['Thông tin server','Chi tiết cấu hình máy chủ và địa chỉ truy cập']
+    system: ['Thông tin server','Thông số phần cứng, OS, RAM, ổ đĩa, RAID, mạng và vị trí máy chủ']
   };
   function navigate(){
     var page = location.hash.slice(1).toLowerCase();
@@ -181,6 +263,63 @@ header('Content-Type: text/html; charset=UTF-8');
   function uptime(t){if(t==null)return ['—','Chưa có dữ liệu'];var d=Math.floor(t/86400),h=Math.floor((t%86400)/3600),m=Math.floor((t%3600)/60);return [d+' ngày',h+' giờ '+m+' phút'];}
   function updateBars(id,v){$(id).style.width=(v==null?0:v)+'%';}
   function chart(){var x0=0,dx=cpuHistory.length>1?600/(cpuHistory.length-1):0;var pts=cpuHistory.map(function(v,i){return (x0+dx*i).toFixed(1)+','+(145-v*1.3).toFixed(1)});$('cpuLine').setAttribute('points',pts.join(' '));$('cpuChartText').textContent=cpuHistory.length?cpuHistory.length+' mẫu đo':'Đang chờ dữ liệu...';}
+  function showText(id, value, empty){
+    var el=$(id);if(!el)return;
+    var valid=value!==null&&value!==undefined&&String(value).trim()!=='';
+    el.textContent=valid?String(value):(empty||'Chưa đọc được');
+    el.classList.toggle('dim',!valid);
+  }
+  function sysSize(bytes){if(bytes===null||bytes===undefined||isNaN(Number(bytes)))return '—';return fmt(Number(bytes)/1073741824)+' GiB';}
+  function sysTable(tbodyId,rows,cb,colspan){
+    var body=$(tbodyId);if(!body)return;
+    if(!Array.isArray(rows)||rows.length===0){body.innerHTML='<tr><td class="inventory-empty" colspan="'+colspan+'">Không tìm thấy dữ liệu từ hệ thống</td></tr>';return;}
+    body.innerHTML=rows.map(cb).join('');
+  }
+  function sysEsc(value){return escaped(value===null||value===undefined||value===''?'—':value);}
+  function updateInventory(data){
+    var s=data.system||{}, cpu=s.cpuDetails||{}, board=s.board||{}, mem=data.memory||{}, meta=s.meta||{};
+    showText('inventoryHost',data.hostname);
+    showText('ivOs',s.os&&s.os.name);
+    showText('ivKernel',s.kernel);
+    showText('ivArch',s.architecture);
+    showText('ivPhp',s.phpVersion);
+    showText('ivUptime',uptime(data.uptimeSeconds).join(' '));
+    showText('ivBoardVendor',board.vendor);
+    showText('ivBoardModel',board.model);
+    showText('ivBoardVersion',board.version);
+    showText('ivMachine',[board.machineVendor,board.machineModel].filter(Boolean).join(' / '));
+    showText('ivCpuModel',cpu.model);
+    showText('ivCpuShort',cpu.model ? cpu.model.replace(/\(R\)|\(TM\)/gi,'').replace(/CPU\s+/gi,'').trim() : null);
+    showText('ivThreadsShort',cpu.logicalCpus);
+    showText('ivSockets',cpu.sockets);
+    showText('ivCores',cpu.coresPerSocket);
+    showText('ivThreads',cpu.logicalCpus);
+    showText('ivRamShort',mem.total!=null?sysSize(mem.total):null);
+    showText('ivSwapShort',mem.swapTotal!=null?sysSize(mem.swapTotal):null);
+    showText('ivMemTotal',mem.total!=null?sysSize(mem.total):null);
+    showText('ivMemUsed',mem.used!=null?sysSize(mem.used):null);
+    showText('ivMemAvail',mem.available!=null?sysSize(mem.available):null);
+    showText('ivSwapTotal',mem.swapTotal!=null?sysSize(mem.swapTotal):null);
+    showText('ivSwapUsed',mem.swapTotal!=null&&mem.swapFree!=null?sysSize(mem.swapTotal-mem.swapFree):null);
+    showText('ivSwapFree',mem.swapFree!=null?sysSize(mem.swapFree):null);
+    [['ivRole','serverRole'],['ivPosition','position'],['ivDc','datacenter'],['ivRack','rack'],['ivProvider','provider'],['ivStorageNotes','storageNotes'],['ivBackupNotes','backupNotes']].forEach(function(item){showText(item[0],meta[item[1]],'Chưa khai báo');});
+    sysTable('ivPhysicalDisks',s.blockDevices,function(d){
+      var model=[d.vendor,d.model].filter(Boolean).join(' ').trim();
+      return '<tr><td class="disk-name">/dev/'+sysEsc(d.name)+'</td><td>'+sysEsc(d.type)+'</td><td>'+sysEsc(model)+'</td><td><b>'+sysSize(d.size)+'</b></td></tr>';
+    },4);
+    var raid=s.raid||{};
+    var r=Array.isArray(raid.arrays)?raid.arrays:[];
+    showText('ivRaid',r.length?r.map(function(x){return x.device+' : '+x.summary}).join(' | '):raid.description);
+    sysTable('ivMounts',s.mounts,function(d){
+      var usage=d.total>0?Math.max(0,Math.min(100,100*d.used/d.total)):0;
+      return '<tr><td class="disk-name">'+sysEsc(d.mount)+'</td><td>'+sysEsc(d.device)+'</td><td>'+sysEsc(d.fs)+'</td><td><b>'+sysSize(d.total)+'</b> · '+sysSize(d.used)+' đã dùng<div class="inventory-bar"><span style="width:'+usage.toFixed(1)+'%"></span></div></td></tr>';
+    },4);
+    sysTable('ivInterfaces',s.interfaces,function(d){
+      var speed=d.speedMbps&&Number(d.speedMbps)>0&&Number(d.speedMbps)<10000000?d.speedMbps+' Mbps':'—';
+      return '<tr><td class="disk-name">'+sysEsc(d.name)+'</td><td>'+sysEsc(d.state)+'</td><td>'+sysEsc(speed)+'</td><td>'+sysEsc(d.mtu)+'</td></tr>';
+    },4);
+  }
+
   function updateInfo(data){
     state=data;
     $('dataTitle').textContent='Đã kết nối bộ giám sát read-only';
@@ -192,6 +331,7 @@ header('Content-Type: text/html; charset=UTF-8');
     if(data.disk){var d=percent(data.disk.used,data.disk.total);$('diskValue').textContent=fmt(d)+'%';$('diskSub').textContent=sizeFmt(data.disk.used)+' / '+sizeFmt(data.disk.total);updateBars('diskBar',d);}
     var ut=uptime(data.uptimeSeconds);$('uptimeValue').textContent=ut[0];$('uptimeSub').textContent=ut[1];
     $('specHostname').textContent=data.hostname||'—';
+    updateInventory(data);
     $('loadValue').textContent=Array.isArray(data.load)?data.load.map(fmt).join(' / '):'— / — / —';
     $('lastCheck').textContent=new Date(data.checkedAt||Date.now()).toLocaleTimeString('vi-VN');
     $('apacheState').innerHTML='<span class="mini-dot '+(data.ports&&data.ports.apache?'green':'')+'"></span>'+(data.ports&&data.ports.apache?'Có kết nối TCP':'Không lắng nghe');
@@ -213,7 +353,7 @@ header('Content-Type: text/html; charset=UTF-8');
   $('saveHost').addEventListener('click',function(){var v=sanitizeHost($('hostField').value);if(!v){alert('IP/hostname không hợp lệ. Chỉ nhập tên máy chủ hoặc IPv4, không nhập giao thức và port.');return;}chosenHost=v;try{localStorage.setItem('amnote_portal_host',v);}catch(e){}updateHost();closeModal();});
   Array.prototype.forEach.call(document.querySelectorAll('[data-open-tool]'),function(b){b.addEventListener('click',function(){var s=services.find(function(x){return x.id===b.getAttribute('data-open-tool')});if(s)window.open(urlFor(s),'_blank','noopener,noreferrer');});});
   $('refreshBtn').addEventListener('click',fetchData);
-  updateHost();renderServices();navigate();fetchData();setInterval(fetchData,8000);
+  updateHost();renderServices();navigate();fetchData();setInterval(fetchData,3000);
 })();
 </script>
 </body>

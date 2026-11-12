@@ -1,49 +1,39 @@
-# AMnote Server Management – Portal v2
+# AMnote Server Management v3 — Thông tin server đầy đủ
 
-## Thành phần
+Phiên bản v3 mở rộng menu **Thông tin server** theo nhu cầu quản trị của AMnote:
 
-- `index.php`: Dashboard 4 màn hình thực sự: Tổng quan, Giám sát hiệu năng, Dịch vụ hệ thống, Thông tin server. Chỉ IP công ty được mở.
-- `status.php`: API chỉ đọc (Linux `/proc`, ổ đĩa `/`, kết nối TCP localhost).
-- `access.php`: Allowlist IP cho **cả dashboard và API**, chỉ `115.78.232.22`, `127.0.0.1`, `::1`.
-- Toàn bộ giao diện nằm trong `index.php` và chỉ được trả về sau khi kiểm tra IP. Không có file HTML riêng để vượt qua allowlist.
+- Định danh: hostname, IP/host truy cập (là cấu hình liên kết, không nhất thiết là IP network thật), OS, kernel, architecture, phiên bản PHP đang phục vụ API.
+- Phần cứng: hãng/model/version mainboard (DMI), thông tin máy chủ, CPU model, sockets, cores/socket, logical threads.
+- Bộ nhớ: RAM hệ thống khả dụng (Linux `/proc/meminfo`), đã dùng, khả dụng, Swap tổng/dùng/trống.
+- Lưu trữ: từng thiết bị `/sys/block/*` gồm loại ổ do kernel báo, model, dung lượng; mdadm RAID `/proc/mdstat`; danh sách mounted filesystem `/proc/mounts` (tổng/dùng/trống).
+- Hạ tầng: giao diện mạng, trạng thái, link speed, MTU.
+- Metadata nhập tay: position, datacenter, rack, provider, backup, vai trò máy chủ và ghi chú lưu trữ (`server-meta.php`).
 
-## Lưu ý quan trọng trước khi triển khai
+**QUAN TRỌNG:** Ví dụ phần cứng `118.69.170.74` chỉ là mẫu mà NhonTT đưa ra, không phải thông số của `.82`. Trang v3 không tự gán cấu hình server `.74` sang `.82`. Không mặc định phân loại RAID1, số ổ backup hoặc vị trí datacenter. Mainboard có thể bị Linux che bởi quyền DMI hoặc môi trường ảo.
 
-1. Đây là bản build để **đánh giá trước**. Chưa được triển khai tới server 118.69.170.82.
-2. Triển khai vào đường dẫn riêng do Apache/PHP-FPM hiện tại phục vụ, chỉ sau khi xác nhận vhost/DocumentRoot phù hợp. **Không ghi đè file hiện có**.
-3. Từ chối HTTP truy cập các file `README.md` và `access.php` bằng cấu hình Apache; `index.php` và `status.php` đã có kiểm tra IP riêng.
-4. Nếu sử dụng Hanhbiro Reverse Proxy, kiểm tra `REMOTE_ADDR` mà PHP thực tế nhận. Code **cố ý không tin `X-Forwarded-For`** để tránh giả mạo IP. Nếu PHP thấy IP proxy thay vì IP công ty, chính sách sẽ từ chối để an toàn.
-5. Hanhbiro có firewall là tốt nhưng vẫn cần đảm bảo port `9090` (Cockpit), `19999` (Netdata), `9002` (Supervisor) chỉ mở cho IP công ty. Truy cập HTTP Netdata/Supervisor trực tiếp không mã hóa; nếu đi Internet, nên dùng HTTPS reverse proxy hoặc SSH tunnel.
-6. Portal **không đăng nhập thay Cockpit/Netdata/Supervisor** và không yêu cầu credentials. Cần đăng nhập tại công cụ đích.
-7. Trạng thái dịch vụ chỉ dựa trên kết nối TCP `127.0.0.1:PORT`. Port mở không xác nhận chức năng HTTP hay xử lý nghiệp vụ thành công. Không gọi API gửi thông điệp thuế hoặc tác động DB.
-8. CPU cần 2 mẫu liên tiếp nên xuất hiện sau khoảng 8 giây.
-9. Phiên bản hiện tại ưu tiên **chỉ đọc và không thay đổi cấu hình ứng dụng hiện hữu**; không bao gồm stop/start/restart API từ dashboard.
+## File
 
-## Yêu cầu tương thích
+- `index.php`: giao diện 4 menu, mở rộng riêng menu Thông tin server, tự làm mới mỗi **3 giây**.
+- `status.php`: API chỉ đọc thông số thật, PHP 7.3, không dùng shell, không truy cập database, không restart service.
+- `server-meta.php`: thông tin phải xác minh và điền thủ công. **Không nhập password/token**.
+- `access.php`: giữ nguyên danh sách IP cho phép từ bản v2.
 
-- PHP 7.3+ (server hiện dùng PHP 7.3 FPM cho Apache).
-- Linux procfs `/proc/stat`, `/proc/meminfo`, `/proc/uptime`, `/proc/net/dev`.
-- Các hàm PHP: `stream_socket_client`, `disk_total_space`, `disk_free_space`.
-- Không yêu cầu Composer, Node, Docker, MySQL hay quyền root.
+## Cập nhật trên server `118.69.170.82`
 
-## URL & chuyển IP
+Đường dẫn live: `/home/WEB/ammonitor`. Cấu hình Apache hiện tại chỉ cho HTTP truy cập `index.php` và `status.php`, các file `.php` khác được chặn ở VirtualHost. Nếu cấu hình thay đổi, phải xác minh `server-meta.php` không thể tải từ ngoài.
 
-- Mặc định liên kết công cụ dùng `118.69.170.82`.
-- Nút **Đổi IP / Host** lưu tuỳ chọn trên browser (localStorage), không thay đổi server. Có thể đổi sang `118.69.170.101` sau chuyển IP.
-- Các dịch vụ Cockpit, Netdata, Supervisor cần được cài/chạy riêng. Portal không tự cài chúng.
+1. Sao lưu file `index.php` và `status.php` hiện tại.
+2. Upload/copy `index.php`, `status.php`, `server-meta.php` từ gói v3 vào `/home/WEB/ammonitor` (không cần thay `access.php`).
+3. Kiểm tra cú pháp với `/usr/local/php7.3/bin/php -l` cho các file PHP; kiểm tra JSON từ `status.php` bằng curl localhost sau cập nhật.
+4. Điền chính xác vị trí/rack/backup trong `server-meta.php` sau khi xác nhận với nhà cung cấp server.
+5. Nhấn Ctrl+F5 rồi vào menu **Thông tin server**.
 
-## Kiểm tra cú pháp mà không gọi API nghiệp vụ
+Không cần restart Apache hoặc PHP-FPM để thay đổi mã PHP này (trừ khi PHP OPcache được cấu hình không kiểm tra timestamp).
 
-```bash
-php -l index.php
-php -l access.php
-php -l status.php
-```
+## Bảo mật
 
-## Điều hướng phiên bản 2
-
-- Menu dùng `location.hash` (`#overview`, `#monitor`, `#services`, `#system`) để chuyển màn hình; chỉ một vùng nội dung được hiển thị.
-- Bộ dữ liệu read-only tiếp tục cập nhật mỗi 8 giây dù đang ở màn hình nào.
-- Giao diện di động có thanh menu ngang cuộn được, không bị mất menu.
-- File Preview HTML dùng để xem offline. **Không triển khai Preview HTML lên Apache** vì không có lớp chặn IP như `index.php`.
-- Portal không tự cài Cockpit/Netdata; các nút chỉ mở website tương ứng.
+- Giữ `access.php` và `Require ip` trong Apache; nguồn số liệu phần cứng có tính nhạy cảm.
+- Không truy cập trang quản trị bằng HTTP không mã hóa qua Internet nếu có thể; cấu hình HTTPS hoặc SSH tunnel khi sử dụng thường xuyên.
+- Giữ chặn truy cập trực tiếp `server-meta.php`, `README.md`, `.bak`, `.zip` và file dự phòng bằng Apache.
+- Lệnh cập nhật không thay đổi firewall, vhost, Apache, Supervisor, MySQL, PHP-FPM, Cockpit hoặc Netdata.
+- Các status TCP chỉ xác nhận cổng có phản hồi localhost, không xác nhận nghiệp vụ API.
