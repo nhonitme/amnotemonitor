@@ -33,7 +33,8 @@ function amnote_cpu_counters() {
     if ($raw === false || !preg_match('/^cpu\s+([^\n]+)/', $raw, $m)) return null;
     $parts = preg_split('/\s+/', trim($m[1]));
     $values = array_map('intval', $parts);
-    $total = array_sum($values);
+    // guest and guest_nice are already included in user/nice Linux counters.
+    $total = array_sum($values) - (isset($values[8]) ? $values[8] : 0) - (isset($values[9]) ? $values[9] : 0);
     $idle = (isset($values[3]) ? $values[3] : 0) + (isset($values[4]) ? $values[4] : 0);
     return array('total' => $total, 'idle' => $idle);
 }
@@ -52,6 +53,24 @@ function amnote_network_counters() {
         $tx += (float)$parts[8];
     }
     return array('rx' => $rx, 'tx' => $tx);
+}
+function amnote_http_probe($port) {
+    $errno = 0; $errstr = '';
+    // Fixed localhost target and GET / only. No user-supplied URLs or credentials.
+    $socket = @stream_socket_client('tcp://127.0.0.1:' . (int)$port, $errno, $errstr, 0.25, STREAM_CLIENT_CONNECT);
+    if ($socket === false) return array('kind' => 'http', 'state' => 'unavailable', 'code' => null);
+    stream_set_timeout($socket, 0, 400000);
+    $written = @fwrite($socket, "GET / HTTP/1.0\r\nHost: localhost\r\nConnection: close\r\n\r\n");
+    $firstLine = $written !== false ? @fgets($socket, 256) : false;
+    fclose($socket);
+    if ($firstLine === false || !preg_match('/^HTTP\/\d(?:\.\d)?\s+(\d{3})\b/', $firstLine, $m)) {
+        return array('kind' => 'http', 'state' => 'unavailable', 'code' => null);
+    }
+    $code = (int)$m[1];
+    return array('kind' => 'http',
+                 'state' => $code >= 200 && $code < 400 ? 'responding' :
+                     ($code >= 500 ? 'http_error' : 'http_response'),
+                 'code' => $code);
 }
 function amnote_tcp_open($port) {
     $errno = 0; $errstr = '';
@@ -124,7 +143,11 @@ function amnote_block_devices() {
         if (preg_match('/^(?:vd|xvd)/', $device)) $type = 'Ổ ảo / virtio';
         if (strpos($device, 'md') === 0) $type = 'Thiết bị RAID (md)';
         if (strpos($device, 'dm-') === 0) $type = 'Thiết bị ánh xạ (DM/LVM)';
+        $deviceClass = strpos($device, 'md') === 0 ? 'raid' :
+            (strpos($device, 'dm-') === 0 ? 'lvm' :
+            (preg_match('/^(?:vd|xvd)/', $device) ? 'virtual' : 'block'));
         $rows[] = array(
+            'deviceClass' => $deviceClass,
             'name' => $device, 'size' => (float)$sectors * 512,
             'type' => $type,
             'vendor' => amnote_small_text($entry . '/device/vendor'),
@@ -138,13 +161,42 @@ function amnote_mdraid() {
     $raw = amnote_file('/proc/mdstat');
     if ($raw === false) return null;
     $arrays = array();
-    foreach (explode("\n", $raw) as $line) {
-        if (preg_match('/^(md\d+)\s*:\s*(.*)$/', trim($line), $m)) {
-            $arrays[] = array('device' => $m[1], 'summary' => trim($m[2]));
+    $lines = explode("\n", $raw);
+    foreach ($lines as $index => $line) {
+        if (!preg_match('/^(md\d+)\s*:\s*(.*)$/', trim($line), $m)) continue;
+        $summary = trim($m[2]);
+        $details = implode(' ', array_slice($lines, $index + 1, 4));
+        $level = null;
+        if (preg_match('/\b(raid\d+|linear|multipath)\b/i', $summary, $levelMatch)) {
+            $level = strtolower($levelMatch[1]);
         }
+        $expected = null; $active = null; $slots = null; $sync = null;
+        if (preg_match('/\[(\d+)\/(\d+)\]\s+\[([U_]+)\]/', $details, $match)) {
+            $expected = (int)$match[1];
+            $active = (int)$match[2];
+            $slots = $match[3];
+        }
+        $degraded = $expected !== null && ($active < $expected || strpos($slots, '_') !== false);
+        $rebuilding = preg_match('/\b(recovery|resync|reshape|check|repair)\s*=/', $details) === 1;
+        if ($rebuilding && preg_match('/\b(?:recovery|resync|reshape|check|repair)\s*=\s*([0-9.]+%)/', $details, $syncMatch)) {
+            $sync = $syncMatch[1];
+        }
+        $state = $rebuilding ? 'syncing' : ($degraded ? 'degraded' :
+            ($expected !== null ? 'normal' : 'unknown'));
+        $arrays[] = array(
+            'device' => $m[1], 'summary' => $summary, 'level' => $level,
+            'expected' => $expected, 'active' => $active, 'slots' => $slots,
+            'state' => $state, 'degraded' => $degraded,
+            'syncProgress' => $sync
+        );
+        if (count($arrays) >= 16) break;
     }
-    return array('arrays' => $arrays, 'description' => count($arrays) ? 'Phát hiện md RAID từ /proc/mdstat' :
-        'Không thấy md RAID; không loại trừ RAID phần cứng, LVM hoặc RAID khác');
+    return array(
+        'arrays' => $arrays,
+        'description' => count($arrays)
+            ? 'Chỉ phát hiện RAID phần mềm md; trạng thái RAID phần cứng phải kiểm tra riêng'
+            : 'Không thấy md RAID; không có nghĩa máy chủ không sử dụng RAID phần cứng/LVM'
+    );
 }
 function amnote_mounts() {
     $raw = amnote_file('/proc/mounts');
@@ -239,7 +291,23 @@ $ports = array(
     'php83' => 9001
 );
 $portsState = array();
-foreach ($ports as $id => $port) $portsState[$id] = amnote_tcp_open($port);
+$healthChecks = array();
+$httpPortIds = array(
+    'apache' => true, 'netdata' => true, 'supervisor' => true,
+    'api-tcgp' => true, 'api-queue' => true, 'api-mail' => true,
+    'api-excel' => true, 'api-firmbanking' => true, 'api-firmbanking5000' => true
+);
+foreach ($ports as $id => $port) {
+    $open = amnote_tcp_open($port);
+    $portsState[$id] = $open;
+    if (!$open) {
+        $healthChecks[$id] = array('kind' => 'tcp', 'state' => 'closed', 'code' => null);
+    } elseif (isset($httpPortIds[$id])) {
+        $healthChecks[$id] = amnote_http_probe($port);
+    } else {
+        $healthChecks[$id] = array('kind' => 'tcp', 'state' => 'open', 'code' => null);
+    }
+}
 
 $result = array(
     'checkedAt' => gmdate('c'),
@@ -253,6 +321,7 @@ $result = array(
         : null,
     'network' => amnote_network_counters(),
     'ports' => $portsState,
+    'healthChecks' => $healthChecks,
     'system' => array(
         'os' => amnote_os_release(), 'kernel' => php_uname('r'),
         'architecture' => php_uname('m'), 'phpVersion' => PHP_VERSION,

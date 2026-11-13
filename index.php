@@ -20,7 +20,7 @@ header('Content-Type: text/html; charset=UTF-8');
     .nav-caption{font-size:10px;letter-spacing:1.65px;color:#6f8099;font-weight:800;text-transform:uppercase;padding:4px 14px 10px}.navlink{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;color:#b7c3d5;margin:2px 0;transition:.15s}.navlink:hover{background:#252f42;color:white}.navlink.active{background:#323c4e;color:white;box-shadow:inset 3px 0 var(--red)}.navlink .symbol{font-size:19px;width:21px;text-align:center;opacity:.88}.sidebar-bottom{margin-top:auto;border:1px solid #323c4b;background:#1e2838;border-radius:14px;padding:15px}.sidebar-bottom small{display:block;color:#899cb3;line-height:1.6}.sidebar-bottom strong{color:#e4eaf2;font-weight:650}.sidebar-bottom .dot{display:inline-block;width:7px;height:7px;background:#7f8ea3;border-radius:50%;margin-right:7px}
     .main{width:calc(100% - 250px);max-width:1800px;min-width:0;margin:0 auto;padding:32px clamp(20px,3.1vw,52px) 50px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:29px}.eyebrow{display:flex;gap:8px;align-items:center;color:#738398;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}.eyebrow .small-bar{height:3px;width:15px;background:var(--red);border-radius:2px}.top h1{font-size:clamp(24px,2.35vw,32px);letter-spacing:-1px;margin:5px 0 5px;font-weight:770}.sub{color:var(--muted);font-size:13px}.top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.smallbtn{height:38px;border:1px solid #dce1e9;background:#fff;border-radius:10px;padding:0 13px;display:inline-flex;gap:8px;align-items:center;justify-content:center;color:#39465b;font-weight:650;white-space:nowrap}.smallbtn:hover{border-color:#a7b4c8;background:#f8fafc}.smallbtn.primary{background:#1d293b;border:1px solid #1d293b;color:white}.smallbtn.primary:hover{background:#303e54}
     .notice{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1px solid #e4e9f0;border-left:3px solid var(--red);padding:15px 17px;border-radius:12px;margin-bottom:22px;box-shadow:var(--shadow)}.notice i{font-style:normal;font-size:20px;line-height:1}.notice strong{display:block;font-size:13px}.notice p{margin:3px 0 0;color:#718096;font-size:12px}.notice .notice-state{margin-left:auto;white-space:nowrap;border-radius:99px;padding:5px 10px;color:#946319;background:#fff5e5;font-size:11px;font-weight:700}.notice .notice-state.online{color:#0c7552;background:#e9f7f0}
-    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:25px}.stat{background:var(--panel);padding:21px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow);min-height:160px}.stat-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.stat-name{font-size:12px;color:#778398;font-weight:650}.stat-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#eef3fa;color:#506a93;font-size:17px}.stat-icon.red{color:#c6454c;background:#fcf0f0}.stat-value{font-size:30px;letter-spacing:-1.2px;font-weight:780;margin-top:16px;line-height:1.2;font-variant-numeric:tabular-nums}.stat-foot{font-size:11px;color:#8895a8;margin-top:11px;white-space:normal}.bar{height:6px;width:100%;border-radius:20px;background:#edf0f5;overflow:hidden;margin-top:13px}.bar>span{display:block;width:0;height:100%;border-radius:20px;background:#506a94;transition:width .4s}.bar.red>span{background:linear-gradient(90deg,#ec8085,#cb3f4a)}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:25px}.stat{background:var(--panel);padding:21px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow);min-height:160px}.stat-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.stat-name{font-size:12px;color:#778398;font-weight:650}.stat-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#eef3fa;color:#506a93;font-size:17px}.stat-icon.red{color:#c6454c;background:#fcf0f0}.stat-value{font-size:30px;letter-spacing:-1.2px;font-weight:780;margin-top:16px;line-height:1.2;font-variant-numeric:tabular-nums}.stat-foot{font-size:11px;color:#8895a8;margin-top:11px;white-space:normal}.bar{height:6px;width:100%;border-radius:20px;background:#edf0f5;overflow:hidden;margin-top:13px}.bar>span{display:block;width:0;height:100%;border-radius:20px;background:#506a94;transition:width .4s}.bar.red>span{background:linear-gradient(90deg,#ec8085,#cb3f4a)}
     .bodygrid{display:grid;grid-template-columns:minmax(0,1.52fr) minmax(295px,1fr);gap:18px;margin-bottom:25px}.panel{border-radius:16px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);min-width:0;overflow:hidden}.panel-pad{padding:22px 23px}.section-title{font-size:16px;letter-spacing:-.3px;font-weight:760;margin:0}.section-sub{color:#8692a1;font-size:12px;margin-top:5px}.panel-head{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:20px}.panel-chip{display:inline-flex;align-items:center;background:#f0f4f9;border-radius:99px;color:#5b6980;padding:6px 10px;font-size:11px;font-weight:700;white-space:nowrap}
     #cpuChart{display:block;width:100%;height:158px;overflow:visible}#cpuChart .gridline{stroke:#ebeff4;stroke-width:1}#cpuChart .polyline{fill:none;stroke:var(--red);stroke-width:2.7;stroke-linecap:round;stroke-linejoin:round}.chart-foot{display:flex;justify-content:space-between;gap:10px;color:#8b97a7;font-size:11px;margin-top:5px}.desc{color:#8996a7;font-size:12px}.specs{display:grid;grid-template-columns:1fr 1fr;gap:17px 14px;margin-top:19px}.specs .k{display:block;color:#8a95a6;font-size:11px}.specs .v{display:block;font-size:13px;font-weight:700;margin-top:5px;word-break:break-word}.mini-dot{display:inline-block;height:8px;width:8px;border-radius:50%;background:#b8c3d1;margin-right:6px}.mini-dot.green{background:#22aa78}
     .services-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}.services-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#search{width:225px;height:38px;border-radius:10px;border:1px solid #dce2ea;padding:0 13px;color:#2d3546;background:#fff;outline:none}#search:focus{border-color:#718cae;box-shadow:0 0 0 3px #d9e8fc}.filter{border:1px solid #e1e6ec;border-radius:9px;background:#fff;padding:9px 12px;font-weight:650;font-size:12px;color:#788497}.filter.active{color:#b52f3e;background:#fff3f3;border-color:#f3d5d8}.servicegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.service{background:#fff;border:1px solid #e7eaf0;border-radius:15px;padding:17px 16px;min-height:176px;display:flex;flex-direction:column;gap:13px;transition:border-color .15s, transform .15s}.service:hover{border-color:#c1cfdf;transform:translateY(-2px)}.service-title{display:flex;justify-content:space-between;gap:10px;align-items:start}.service-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#eef3f9;color:#4d668a;font-size:17px}.service-title h3{font-size:13px;margin:9px 0 2px;font-weight:760}.service-desc{font-size:11px;color:#929dad;line-height:1.45}.service-port{font:600 11px/1.3 ui-monospace,Consolas,monospace;color:#68778b;border-radius:7px;background:#f2f5f8;padding:4px 8px;white-space:nowrap}.service-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto}.health{display:inline-flex;align-items:center;gap:6px;color:#8390a2;font-size:11px;font-weight:700}.health:before{content:"";width:7px;height:7px;border-radius:50%;background:#b8c2cc}.health.up{color:#13845d}.health.up:before{background:#19b07a}.health.down{color:#a46c22}.health.down:before{background:#dba453}.textlink{background:none;border:0;color:#b33643;font-size:12px;font-weight:760;padding:5px 0}.textlink:hover{text-decoration:underline}.textlink:disabled{color:#a6b0bf;cursor:not-allowed;text-decoration:none}.footer{display:flex;justify-content:space-between;color:#9aa6b4;font-size:11px;margin-top:26px;gap:10px;flex-wrap:wrap}.footer b{font-weight:650;color:#73839a}
@@ -114,7 +114,7 @@ header('Content-Type: text/html; charset=UTF-8');
 <main class="main">
 <section class="top">
 <div><div class="eyebrow"><span class="small-bar"></span>Infrastructure / AMnote</div><h1 id="pageTitle">Tổng quan server</h1><div class="sub"><span id="pageSummary">Tài nguyên và tình trạng tổng thể của máy chủ AMnote</span> · <span id="headerHost">118.69.170.82</span></div></div>
-<div class="top-actions"><button class="smallbtn" id="configBtn" type="button">⚙ Đổi IP / Host</button><button class="smallbtn primary" id="refreshBtn" type="button">↻ Làm mới</button></div>
+<div class="top-actions"><button class="smallbtn primary" id="refreshBtn" type="button">↻ Làm mới</button></div>
 </section>
 
 
@@ -124,7 +124,6 @@ header('Content-Type: text/html; charset=UTF-8');
 <div class="stat"><div class="stat-head"><div class="stat-name">CPU sử dụng</div><div class="stat-icon red">◴</div></div><div class="stat-value" id="cpuValue">—</div><div class="bar red"><span id="cpuBar"></span></div><div class="stat-foot">Tải CPU hệ thống</div></div>
 <div class="stat"><div class="stat-head"><div class="stat-name">Bộ nhớ RAM</div><div class="stat-icon">▤</div></div><div class="stat-value" id="ramValue">—</div><div class="bar"><span id="ramBar"></span></div><div class="stat-foot" id="ramSub">Chưa có dữ liệu</div></div>
 <div class="stat"><div class="stat-head"><div class="stat-name">Ổ đĩa gốc /</div><div class="stat-icon">▣</div></div><div class="stat-value" id="diskValue">—</div><div class="bar"><span id="diskBar"></span></div><div class="stat-foot" id="diskSub">Chưa có dữ liệu</div></div>
-<div class="stat"><div class="stat-head"><div class="stat-name">Thời gian hoạt động</div><div class="stat-icon">◷</div></div><div class="stat-value" id="uptimeValue">—</div><div class="stat-foot" id="uptimeSub">Chưa có dữ liệu</div></div>
 </section>
 <div class="portal-section-title"><h2 class="section-title">Đi đến chức năng</h2><div class="section-sub">Chọn một mục để mở đúng màn hình, không cuộn toàn bộ nội dung trên một trang</div></div>
 <div class="shortcutgrid">
@@ -136,7 +135,7 @@ header('Content-Type: text/html; charset=UTF-8');
 <svg aria-label="Biểu đồ lịch sử CPU" id="cpuChart" preserveaspectratio="none" viewbox="0 0 600 158"><line class="gridline" x1="0" x2="600" y1="30" y2="30"></line><line class="gridline" x1="0" x2="600" y1="75" y2="75"></line><line class="gridline" x1="0" x2="600" y1="120" y2="120"></line><polyline class="polyline" id="cpuLine" points=""></polyline></svg>
 <div class="chart-foot"><span>60 mẫu gần nhất</span><span id="cpuChartText">Đang chờ dữ liệu...</span></div>
 </div><div class="monitor-note"><strong>Giám sát chuyên sâu với Netdata</strong><p>Netdata là ứng dụng riêng. Khi đã cài và giới hạn truy cập từ IP công ty, bạn có thể mở dashboard để xem CPU, RAM, Disk I/O, Network và cảnh báo.</p><button class="textlink" data-open-tool="netdata" type="button">Mở Netdata ↗</button></div></section><section class="page-view" data-page="services" hidden="" id="page-services">
-<div class="services-head"><div><h2 class="section-title">Dịch vụ &amp; Công cụ</h2><div class="section-sub">Mở nhanh các giao diện quản trị hoặc tra cứu trạng thái cổng dịch vụ</div></div><div class="services-controls"><input aria-label="Tìm dịch vụ" id="search" placeholder="Tìm dịch vụ..." type="search"/><button class="filter active" data-filter="all" type="button">Tất cả</button><button class="filter" data-filter="up" type="button">Đang mở</button><button class="filter" data-filter="down" type="button">Chưa mở</button></div></div>
+<div class="services-head"><div><h2 class="section-title">Dịch vụ &amp; Công cụ</h2><div class="section-sub">Mở nhanh các giao diện quản trị hoặc tra cứu trạng thái cổng dịch vụ</div></div><div class="services-controls"><input aria-label="Tìm dịch vụ" id="search" placeholder="Tìm dịch vụ..." type="search"/><button class="filter active" data-filter="all" type="button">Tất cả</button><button class="filter" data-filter="up" type="button">Cổng mở</button><button class="filter" data-filter="down" type="button">Cổng đóng</button></div></div>
 <div class="servicegrid" id="serviceGrid"></div>
 </section><section class="page-view" data-page="system" hidden="" id="page-system">
   <div class="portal-section-title"><h2 class="section-title">Hồ sơ cấu hình máy chủ</h2><div class="section-sub">Dữ liệu phần cứng đọc trực tiếp từ Linux; vị trí đặt máy và thông tin backup được nhập thủ công.</div></div>
@@ -174,7 +173,7 @@ header('Content-Type: text/html; charset=UTF-8');
       <div><dt>Nhà cung cấp</dt><dd id="ivProvider">Chưa khai báo</dd></div><div><dt>Ghi chú lưu trữ</dt><dd id="ivStorageNotes">Chưa khai báo</dd></div>
       <div><dt>Backup</dt><dd id="ivBackupNotes">Chưa khai báo</dd></div>
     </dl></section>
-    <section class="inventory-card wide"><header class="inventory-card-head"><span class="inventory-card-icon">▦</span><div><h3>Ổ đĩa vật lý / thiết bị lưu trữ</h3><div class="cardhint">Nhận diện từng disk theo /sys/block; RAID và LVM có thể xuất hiện dưới dạng thiết bị logic riêng</div></div></header>
+    <section class="inventory-card wide"><header class="inventory-card-head"><span class="inventory-card-icon">▦</span><div><h3>Thiết bị block / lưu trữ (không cộng dồn)</h3><div class="cardhint">Đọc /sys/block: gồm ổ, thiết bị ảo, RAID md và LVM; không cộng dung lượng các dòng</div></div></header>
       <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>Thiết bị</th><th>Loại</th><th>Hãng / Model</th><th>Dung lượng</th></tr></thead><tbody id="ivPhysicalDisks"><tr><td colspan="4" class="inventory-empty">Chưa có dữ liệu phần cứng</td></tr></tbody></table></div>
     </section>
     <section class="inventory-card wide"><header class="inventory-card-head"><span class="inventory-card-icon">≋</span><div><h3>RAID & phân vùng lưu trữ</h3><div class="cardhint">Phân biệt dung lượng thiết bị và dung lượng sử dụng được trên filesystem</div></div></header>
@@ -185,20 +184,16 @@ header('Content-Type: text/html; charset=UTF-8');
       <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>Interface</th><th>Trạng thái</th><th>Tốc độ liên kết</th><th>MTU</th></tr></thead><tbody id="ivInterfaces"><tr><td colspan="4" class="inventory-empty">Chưa có dữ liệu mạng</td></tr></tbody></table></div>
     </section>
   </div>
-  <div class="inventory-foot"><b>Nguồn dữ liệu:</b> /proc, /sys, /etc/os-release. Model mainboard có thể không đọc được nếu môi trường ảo hoặc bị giới hạn quyền. Không tự kết luận RAID1, số lượng HDD backup hay vị trí datacenter từ dung lượng phân vùng. Điền thông tin đã xác minh vào <code>server-meta.php</code> trên server. Không đưa thông tin của máy <code>118.69.170.74</code> vào máy <code>118.69.170.82</code>.</div>
+  <div class="inventory-foot"><b>Nguồn dữ liệu:</b> /proc, /sys, /etc/os-release. Số liệu từ máy chạy PHP; trong container có thể khác host vật lý. TCP mở không đồng nghĩa API hoạt động; HTTP phản hồi cũng chưa xác nhận nghiệp vụ. Model mainboard có thể không đọc được nếu môi trường ảo hoặc bị giới hạn quyền. Không tự kết luận RAID1, số lượng HDD backup hay vị trí datacenter từ dung lượng phân vùng. Điền thông tin đã xác minh vào <code>server-meta.php</code> trên server. Không đưa thông tin của máy <code>118.69.170.74</code> vào máy <code>118.69.170.82</code>.</div>
 </section>
 <footer class="footer"><span>© 2026 <b>AMnote</b> · Infrastructure dashboard · Không lưu mật khẩu hoặc token</span><span>Chỉ dành cho IP công ty <b>115.78.232.22</b> (phiên bản PHP)</span></footer>
 </main>
-</div>
-<div aria-hidden="true" aria-labelledby="hostTitle" aria-modal="true" class="modalbg" id="hostModal" role="dialog">
-<div class="modal"><h2 id="hostTitle">Địa chỉ server</h2><p>Thay đổi IP hoặc tên miền khi chuyển máy chủ. Địa chỉ này chỉ dùng để tạo liên kết, không thay đổi cấu hình server.</p><label class="formlabel" for="hostField">IP hoặc hostname</label><input autocomplete="off" class="hostinput" id="hostField" value="118.69.170.82"/><div class="small-print">Ví dụ: 118.69.170.82 hoặc ten-mien-noi-bo.example.com. Không nhập http:// hay port.</div><div class="modal-actions"><button class="smallbtn" id="cancelHost" type="button">Hủy</button><button class="smallbtn primary" id="saveHost" type="button">Lưu địa chỉ</button></div></div>
 </div>
 <script>
 (function(){
   'use strict';
   var DEFAULT_HOST = '118.69.170.82';
   var chosenHost = DEFAULT_HOST;
-  try{var saved=localStorage.getItem('amnote_portal_host');if(saved)chosenHost=saved;}catch(e){}
   var services=[
     {id:'cockpit',name:'Cockpit',desc:'Quản trị Linux, systemd, log và Terminal',port:9090,proto:'https',kind:'management',symbol:'▤',action:'Mở Cockpit'},
     {id:'netdata',name:'Netdata',desc:'Biểu đồ CPU, RAM, mạng và cảnh báo',port:19999,proto:'http',kind:'management',symbol:'◫',action:'Mở Netdata'},
@@ -213,7 +208,7 @@ header('Content-Type: text/html; charset=UTF-8');
     {id:'php73',name:'PHP-FPM 7.3',desc:'Dịch vụ PHP legacy',port:9000,proto:'tcp',kind:'system',symbol:'{ }',action:null},
     {id:'php83',name:'PHP-FPM 8.3',desc:'Dịch vụ PHP 8.3',port:9001,proto:'tcp',kind:'system',symbol:'{ }',action:null}
   ];
-  var state=null, filter='all', searchText='', cpuPrev=null, cpuHistory=[];
+  var state=null, filter='all', searchText='', cpuPrev=null, cpuHistory=[], lastOkTime=null, fetchBusy=false;
 
   var pageMeta = {
     overview: ['Tổng quan server','Tài nguyên và tình trạng tổng thể của máy chủ AMnote'],
@@ -241,10 +236,9 @@ header('Content-Type: text/html; charset=UTF-8');
   var fmt=function(n){return (Math.round(n*10)/10).toLocaleString('vi-VN',{maximumFractionDigits:1})};
   var sizeFmt=function(n){if(n==null)return '—';return fmt(n/1073741824)+' GB'};
   var percent=function(used,total){return total>0?Math.max(0,Math.min(100,100*used/total)):null};
-  function sanitizeHost(x){x=String(x||'').trim();return /^(?:[a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+$/.test(x) && x.length<=253 ? x : null;}
   function urlFor(s){return s.proto+'://'+chosenHost+':'+s.port+'/';}
   function escaped(str){return String(str).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]});}
-  function updateHost(){ $('headerHost').textContent=chosenHost;$('specHost').textContent=chosenHost;$('hostField').value=chosenHost;renderServices(); }
+  function updateHost(){ $('headerHost').textContent=chosenHost;$('specHost').textContent=chosenHost;renderServices(); }
   function renderServices(){
     var list=services.filter(function(s){
       var okText=(s.name+' '+s.desc+' '+s.port).toLowerCase().indexOf(searchText)>=0;
@@ -253,8 +247,16 @@ header('Content-Type: text/html; charset=UTF-8');
     });
     var html=list.map(function(s){
       var live=state && state.ports && typeof state.ports[s.id]==='boolean' ? state.ports[s.id] : null;
-      var health=live===true?'Đang lắng nghe TCP':live===false?'Không lắng nghe':'Chưa kiểm tra';
-      var css=live===true?'up':live===false?'down':'';
+      var check=state&&state.healthChecks?state.healthChecks[s.id]:null;
+      var health=live===false?'Không mở TCP':live===null?'Chưa kiểm tra':'TCP mở · chưa xác minh nghiệp vụ';
+      var css=live===false?'down':'';
+      if(live===true&&check&&check.kind==='http'){
+        if(check.state==='responding'){health='HTTP '+check.code+' · chưa xác minh nghiệp vụ';css='up';}
+        else if(check.state==='http_error'){health='HTTP '+check.code+' · lỗi máy chủ';css='down';}
+        else if(check.state==='http_response'){health='HTTP '+check.code+' · chưa xác minh nghiệp vụ';css='';}
+        else {health='TCP mở · HTTP không phản hồi';css='';}
+      }
+
       var action=s.action?'<button type="button" class="textlink" data-open="'+escaped(s.id)+'">'+escaped(s.action)+' ↗</button>':'<span class="desc">Chỉ theo dõi</span>';
       return '<article class="service"><div class="service-title"><div><div class="service-icon">'+escaped(s.symbol)+'</div><h3>'+escaped(s.name)+'</h3><div class="service-desc">'+escaped(s.desc)+'</div></div><span class="service-port">:'+s.port+'</span></div><div class="service-bottom"><span class="health '+css+'">'+health+'</span>'+action+'</div></article>';
     }).join('');
@@ -309,7 +311,8 @@ header('Content-Type: text/html; charset=UTF-8');
     },4);
     var raid=s.raid||{};
     var r=Array.isArray(raid.arrays)?raid.arrays:[];
-    showText('ivRaid',r.length?r.map(function(x){return x.device+' : '+x.summary}).join(' | '):raid.description);
+    var raidLabel={normal:'Bình thường (md)',degraded:'Thiếu ổ (md)',syncing:'Đang đồng bộ/kiểm tra (md)',unknown:'Chưa xác định'};
+    showText('ivRaid',r.length?r.map(function(x){return x.device+' · '+(x.level||'md')+' · '+(raidLabel[x.state]||raidLabel.unknown)+(x.active!=null?' · '+x.active+'/'+x.expected+' ổ':'')+(x.syncProgress?' · '+x.syncProgress:'')+(x.degraded?' · CẢNH BÁO thiếu ổ':'');}).join(' | '):raid.description);
     sysTable('ivMounts',s.mounts,function(d){
       var usage=d.total>0?Math.max(0,Math.min(100,100*d.used/d.total)):0;
       return '<tr><td class="disk-name">'+sysEsc(d.mount)+'</td><td>'+sysEsc(d.device)+'</td><td>'+sysEsc(d.fs)+'</td><td><b>'+sysSize(d.total)+'</b> · '+sysSize(d.used)+' đã dùng<div class="inventory-bar"><span style="width:'+usage.toFixed(1)+'%"></span></div></td></tr>';
@@ -321,36 +324,55 @@ header('Content-Type: text/html; charset=UTF-8');
   }
 
   function updateInfo(data){
+    lastOkTime=new Date();
     state=data;
     $('dataTitle').textContent='Đã kết nối bộ giám sát read-only';
-    $('dataDesc').textContent='Dữ liệu Linux /proc và trạng thái cổng TCP localhost. Không đọc database hoặc gọi API nghiệp vụ.';
+    $('dataDesc').textContent='Dữ liệu Linux /proc; trạng thái TCP/HTTP từ localhost. HTTP phản hồi không chứng minh nghiệp vụ API chạy đúng.';
     $('dataState').textContent='ĐANG GIÁM SÁT';$('dataState').classList.add('online');
     if(data.cpu&&cpuPrev){var total=data.cpu.total-cpuPrev.total,idle=data.cpu.idle-cpuPrev.idle;if(total>0){var value=Math.round(1000*Math.max(0,Math.min(1,(total-idle)/total)))/10;$('cpuValue').textContent=fmt(value)+'%';updateBars('cpuBar',value);$('cpuBadge').textContent=fmt(value)+'% CPU';cpuHistory.push(value);if(cpuHistory.length>60)cpuHistory.shift();chart();}}
     if(data.cpu)cpuPrev=data.cpu;
     if(data.memory){var r=percent(data.memory.used,data.memory.total);$('ramValue').textContent=fmt(r)+'%';$('ramSub').textContent=sizeFmt(data.memory.used)+' / '+sizeFmt(data.memory.total);updateBars('ramBar',r);}
     if(data.disk){var d=percent(data.disk.used,data.disk.total);$('diskValue').textContent=fmt(d)+'%';$('diskSub').textContent=sizeFmt(data.disk.used)+' / '+sizeFmt(data.disk.total);updateBars('diskBar',d);}
-    var ut=uptime(data.uptimeSeconds);$('uptimeValue').textContent=ut[0];$('uptimeSub').textContent=ut[1];
     $('specHostname').textContent=data.hostname||'—';
     updateInventory(data);
     $('loadValue').textContent=Array.isArray(data.load)?data.load.map(fmt).join(' / '):'— / — / —';
-    $('lastCheck').textContent=new Date(data.checkedAt||Date.now()).toLocaleTimeString('vi-VN');
-    $('apacheState').innerHTML='<span class="mini-dot '+(data.ports&&data.ports.apache?'green':'')+'"></span>'+(data.ports&&data.ports.apache?'Có kết nối TCP':'Không lắng nghe');
+    $('lastCheck').textContent=new Date(data.checkedAt).toLocaleTimeString('vi-VN');
+    var apacheCheck=data.healthChecks&&data.healthChecks.apache;
+    $('apacheState').textContent=data.ports&&data.ports.apache?(apacheCheck&&apacheCheck.code?'HTTP '+apacheCheck.code+' · chưa xác minh nghiệp vụ':'Có kết nối TCP'):'Không mở TCP';
     renderServices();
   }
-  function setOffline(message){$('dataTitle').textContent='Chưa kết nối dữ liệu giám sát';$('dataDesc').textContent=message||'Các liên kết quản trị vẫn sử dụng được. Dữ liệu chỉ hiển thị sau khi triển khai bộ đọc read-only.';$('dataState').textContent='CHƯA KẾT NỐI';$('dataState').classList.remove('online');}
+  function clearLiveValues(){
+    state=null;cpuPrev=null;cpuHistory=[];chart();
+    ['cpuValue','ramValue','diskValue','ramSub','diskSub','loadValue','specHostname','inventoryHost','lastCheck','cpuBadge'].forEach(function(id){if($(id))$(id).textContent='—';});
+    ['cpuBar','ramBar','diskBar'].forEach(function(id){updateBars(id,0);});
+    Array.prototype.forEach.call(document.querySelectorAll('#page-system dd'),function(el){el.textContent='—';});
+    Array.prototype.forEach.call(document.querySelectorAll('#page-system tbody'),function(el){el.innerHTML='<tr><td colspan="4" class="inventory-empty">Không có số liệu mới</td></tr>';});
+    renderServices();
+  }
+  function setOffline(message){
+    clearLiveValues();
+    $('dataTitle').textContent='Chưa kết nối dữ liệu giám sát';
+    $('dataDesc').textContent=(message||'Không nhận được dữ liệu')+(lastOkTime?' · Dữ liệu hợp lệ cuối: '+lastOkTime.toLocaleTimeString('vi-VN'):'');
+    $('dataState').textContent='CHƯA KẾT NỐI';$('dataState').classList.remove('online');
+  }
   async function fetchData(){
+    if(fetchBusy)return;
     if(location.protocol==='file:'){setOffline('Đang xem bản preview offline. Để xem số liệu thật, triển khai index.php và status.php trên server.');return;}
-    try{var resp=await fetch('status.php',{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});if(!resp.ok)throw new Error('HTTP '+resp.status);var d=await resp.json();if(!d||d.checkType!=='local-tcp-port-only')throw new Error('Invalid response');updateInfo(d);}catch(e){setOffline('Không nhận được số liệu ('+e.message+'). Kiểm tra status.php, PHP-FPM và giới hạn IP trước khi sử dụng.');}
+    fetchBusy=true;
+    try{
+      var resp=await fetch('status.php',{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
+      if(!resp.ok)throw new Error('HTTP '+resp.status);
+      var d=await resp.json();
+      if(!d||d.checkType!=='local-tcp-port-only')throw new Error('Phản hồi không hợp lệ');
+      var serverTime=Date.parse(d.checkedAt||'');
+      if(!isFinite(serverTime)||Math.abs(Date.now()-serverTime)>90000)throw new Error('Timestamp cũ hoặc giờ server/client lệch quá 90 giây');
+      updateInfo(d);
+    }catch(e){setOffline('Không nhận được số liệu mới ('+e.message+'). Kiểm tra status.php, PHP-FPM, đồng bộ NTP và giới hạn IP.');}
+    finally{fetchBusy=false;}
   }
   $('search').addEventListener('input',function(e){searchText=e.target.value.trim().toLowerCase();renderServices();});
   Array.prototype.forEach.call(document.querySelectorAll('[data-filter]'),function(b){b.addEventListener('click',function(){filter=b.getAttribute('data-filter');Array.prototype.forEach.call(document.querySelectorAll('[data-filter]'),function(x){x.classList.toggle('active',x===b)});renderServices();});});
   $('serviceGrid').addEventListener('click',function(e){var b=e.target.closest('[data-open]');if(!b)return;var s=services.find(function(x){return x.id===b.getAttribute('data-open')});if(s){window.open(urlFor(s),'_blank','noopener,noreferrer');}});
-  function showModal(){ $('hostModal').classList.add('visible');$('hostModal').setAttribute('aria-hidden','false');$('hostField').focus();}
-  function closeModal(){ $('hostModal').classList.remove('visible');$('hostModal').setAttribute('aria-hidden','true');$('configBtn').focus();}
-  $('configBtn').addEventListener('click',showModal);$('cancelHost').addEventListener('click',closeModal);
-  $('hostModal').addEventListener('click',function(e){if(e.target===$('hostModal'))closeModal();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('hostModal').classList.contains('visible'))closeModal();});
-  $('saveHost').addEventListener('click',function(){var v=sanitizeHost($('hostField').value);if(!v){alert('IP/hostname không hợp lệ. Chỉ nhập tên máy chủ hoặc IPv4, không nhập giao thức và port.');return;}chosenHost=v;try{localStorage.setItem('amnote_portal_host',v);}catch(e){}updateHost();closeModal();});
   Array.prototype.forEach.call(document.querySelectorAll('[data-open-tool]'),function(b){b.addEventListener('click',function(){var s=services.find(function(x){return x.id===b.getAttribute('data-open-tool')});if(s)window.open(urlFor(s),'_blank','noopener,noreferrer');});});
   $('refreshBtn').addEventListener('click',fetchData);
   updateHost();renderServices();navigate();fetchData();setInterval(fetchData,3000);
